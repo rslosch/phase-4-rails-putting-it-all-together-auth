@@ -1,13 +1,9 @@
 class RecipesController < ApplicationController
-    def index
-        user = User.find_by(id: session[:user_id])
+    # skip_before_action :authorize
 
-        if user
-            recipes = user.recipes
-            render json: recipes, include: :user, status: :created
-        else
-            render json: {errors: user.errors.full_messages}
-        end
+    def index
+        recipes = Recipe.all
+        render json: recipes, include: :user
     end
 
     def create
@@ -17,7 +13,7 @@ class RecipesController < ApplicationController
         if recipe.valid?
             render json: recipe, include: :user, status: :created
         else
-            render json: {errors: recipe.errors.full_messages}, status: :unprocessable_entity
+            render json: {errors: ["a kind of Array"]}, status: :unprocessable_entity
         end
     end
 
